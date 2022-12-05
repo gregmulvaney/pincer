@@ -22,7 +22,7 @@ impl QueryRoot {
     async fn downloads<'ctx>(
         &self,
         ctx: &Context<'ctx>,
-        limits: Option<String>,
+        _limits: Option<String>,
     ) -> Result<Vec<Model>, DbErr> {
         let db = ctx.data::<DatabaseConnection>().unwrap();
         Ok(Download::find()
