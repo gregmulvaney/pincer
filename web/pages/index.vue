@@ -1,5 +1,6 @@
 <template>
   <div class="flex-grow">
-    <ControlBar/>
+    <ControlBar />
+    <DownloadList />
   </div>
 </template>
