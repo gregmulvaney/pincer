@@ -7,3 +7,5 @@ edition = "2021"
 
 [dependencies]
 sea-orm = "0.10.5"
+serde = { version = "1.0.149", features=["derive"] }
+async-graphql = "5.0.2"

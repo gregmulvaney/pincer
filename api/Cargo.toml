@@ -11,10 +11,12 @@ members=[".","migration","entity"]
 entity = {path="entity"}
 migration = {path="migration"}
 async-graphql = "5.0.2"
-axum = "0.6.1"
+axum = { version = "0.6.1" }
 tokio = { version = "1.22.0", features=["macros","rt-multi-thread"]}
 dotenvy = "0.15.6"
 tracing-subscriber = "0.3.16"
+tower-http = { version = "0.3.5", features=["cors"] }
+async-graphql-axum = "5.0.2"
 
 [dependencies.sea-orm]
 version = "0.10.5"

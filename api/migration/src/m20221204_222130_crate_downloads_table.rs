@@ -19,6 +19,7 @@ impl MigrationTrait for Migration {
                             .primary_key(),
                     )
                     .col(ColumnDef::new(Download::Name).string().not_null())
+                    .col(ColumnDef::new(Download::Size).string().not_null())
                     .to_owned(),
             )
             .await
@@ -39,4 +40,5 @@ enum Download {
     Table,
     Id,
     Name,
+    Size,
 }

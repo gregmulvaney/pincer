@@ -1,8 +1,14 @@
-use async_graphql::{Context, EmptyMutation, EmptySubscription, Object, Schema};
-use entity::prelude::Download;
-use sea_orm::{DatabaseConnection, EntityTrait};
+use async_graphql::{Context, EmptyMutation, EmptySubscription, Object, Schema, SimpleObject};
+use entity::{download::Model, prelude::Download};
+use sea_orm::{DatabaseConnection, DbErr, EntityTrait};
 
 pub type GraphQLSchema = Schema<QueryRoot, EmptyMutation, EmptySubscription>;
+
+#[derive(SimpleObject)]
+struct DownloadItem {
+    id: String,
+    name: String,
+}
 
 #[derive(Default)]
 pub struct QueryRoot;
@@ -13,10 +19,16 @@ impl QueryRoot {
         format!("Hello, {name}")
     }
 
-    async fn get_downloads<'ctx>(&self, ctx: &Context<'ctx>) -> String {
+    async fn downloads<'ctx>(
+        &self,
+        ctx: &Context<'ctx>,
+        limits: Option<String>,
+    ) -> Result<Vec<Model>, DbErr> {
         let db = ctx.data::<DatabaseConnection>().unwrap();
-        let res = Download::find().all(db).await.unwrap();
-        println!("{res:?}");
-        "Works".to_string()
+        Ok(Download::find()
+            .all(db)
+            .await
+            .map_err(|e| e.to_string())
+            .unwrap())
     }
 }

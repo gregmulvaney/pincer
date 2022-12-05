@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { awaitExpression } from '@babel/types'
+
 const table_headers: String[] = [
   'Name',
   'Size',
@@ -6,6 +8,16 @@ const table_headers: String[] = [
   'Status',
   'Progress',
 ]
+
+const getDownloadsQuery = gql`
+    query {
+      downloads{
+        id,
+        name
+      }
+}
+`
+const { data } = await useAsyncQuery(getDownloadsQuery)
 </script>
 
 <template>
@@ -17,5 +29,10 @@ const table_headers: String[] = [
         </th>
       </tr>
     </thead>
+    <tbody>
+      <tr v-for="(download, index) in data?.downloads" :key="index" class="border-x border-zinc-800">
+        <td>{{ download.name }}</td>
+      </tr>
+    </tbody>
   </table>
 </template>
