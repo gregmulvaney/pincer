@@ -1,7 +1,9 @@
-use crate::graphql::{GraphQLSchema, QueryRoot};
+use crate::graphql::{
+    mutation::MutationRoot, query::QueryRoot, subscription::SubscriptionRoot, GraphQLSchema,
+};
 use async_graphql::{
     http::{playground_source, GraphQLPlaygroundConfig},
-    EmptyMutation, EmptySubscription, Schema,
+    EmptyMutation, Schema,
 };
 use async_graphql_axum::{GraphQLRequest, GraphQLResponse};
 use axum::{
@@ -26,7 +28,7 @@ async fn main() {
         .await
         .unwrap();
     Migrator::up(&db, None).await.unwrap();
-    let schema = Schema::build(QueryRoot, EmptyMutation, EmptySubscription)
+    let schema = Schema::build(QueryRoot, MutationRoot, SubscriptionRoot)
         .data(db)
         .finish();
     dump_sdl(&schema);
