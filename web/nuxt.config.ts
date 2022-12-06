@@ -5,7 +5,7 @@ export default defineNuxtConfig({
   apollo: {
     clients: {
       default: {
-        httpEndpoint: 'http://localhost:4000/',
+        httpEndpoint: 'http://127.0.0.1:4000/',
       },
     },
   },

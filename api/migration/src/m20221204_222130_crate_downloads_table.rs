@@ -20,6 +20,8 @@ impl MigrationTrait for Migration {
                     )
                     .col(ColumnDef::new(Download::Name).string().not_null())
                     .col(ColumnDef::new(Download::Size).string().not_null())
+                    .col(ColumnDef::new(Download::SizeUnit).string().not_null())
+                    .col(ColumnDef::new(Download::Host).string().not_null())
                     .to_owned(),
             )
             .await
@@ -41,4 +43,6 @@ enum Download {
     Id,
     Name,
     Size,
+    SizeUnit,
+    Host,
 }

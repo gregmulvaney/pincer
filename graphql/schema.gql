@@ -5,6 +5,7 @@
 type Model {
 	id: Int!
 	name: String!
+	size: String!
 }
 
 type QueryRoot {
