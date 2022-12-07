@@ -45,7 +45,6 @@ async fn parse_url(url: String) -> Result<DownloadItem, Box<dyn std::error::Erro
         let unit = parsed_size.get_unit();
         let parsed_url = Url::parse(&url).unwrap();
         let host = parsed_url.host_str().unwrap().to_string();
-        println!("{}", host.split(".").count());
         let file_name = parsed_url
             .path_segments()
             .unwrap()
@@ -64,7 +63,7 @@ async fn parse_url(url: String) -> Result<DownloadItem, Box<dyn std::error::Erro
         name: file_name,
         url,
         raw_size: raw_size.to_string(),
-        adjusted_size: adjusted_size.to_string(),
+        adjusted_size: adjusted_size,
         unit: unit.to_string(),
         host,
     })
