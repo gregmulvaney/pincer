@@ -3,7 +3,7 @@ use crate::graphql::{
 };
 use async_graphql::{
     http::{playground_source, GraphQLPlaygroundConfig},
-    EmptyMutation, Schema,
+    Schema,
 };
 use async_graphql_axum::{GraphQLRequest, GraphQLResponse};
 use axum::{

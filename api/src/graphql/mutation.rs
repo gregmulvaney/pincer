@@ -1,7 +1,7 @@
 use async_graphql::{Context, Object, Result as GQLResult};
 use byte_unit::Byte;
-use entity::prelude::Download;
-use sea_orm::DatabaseConnection;
+use entity::download::*;
+use sea_orm::{ActiveModelTrait, DatabaseConnection, NotSet, Set};
 use url::Url;
 
 #[derive(Debug, Default)]
@@ -21,8 +21,17 @@ pub struct MutationRoot;
 impl MutationRoot {
     async fn add_download(&self, ctx: &Context<'_>, url: String) -> GQLResult<bool> {
         let db = ctx.data::<DatabaseConnection>().unwrap();
-        let download = parse_url(url).await.unwrap();
-        println!("{download:?}");
+        let download: DownloadItem = parse_url(url).await.unwrap();
+        let item = ActiveModel {
+            id: NotSet,
+            name: Set(download.name),
+            raw_size: Set(download.raw_size),
+            adjusted_size: Set(download.adjusted_size),
+            unit: Set(download.unit),
+            url: Set(download.url),
+            host: Set(download.host),
+        };
+        item.insert(db).await.unwrap();
         Ok(true)
     }
 }

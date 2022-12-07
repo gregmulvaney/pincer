@@ -6,5 +6,6 @@ const emit = defineEmits(['close'])
   <Modal @close="emit('close')">
     <h1>Add Link</h1>
   </Modal>
+  div
 </template>
 

@@ -2,18 +2,21 @@
 
 
 
-type Model {
-	id: Int!
-	name: String!
-	size: String!
+type MutationRoot {
+	addDownload(url: String!): Boolean!
 }
 
 type QueryRoot {
 	greet(name: String!): String!
-	downloads(limits: String): [Model!]!
 }
 
 
+type SubscriptionRoot {
+	getDownloads: Boolean!
+}
+
 schema {
 	query: QueryRoot
+	mutation: MutationRoot
+	subscription: SubscriptionRoot
 }

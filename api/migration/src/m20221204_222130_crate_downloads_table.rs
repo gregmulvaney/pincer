@@ -19,8 +19,10 @@ impl MigrationTrait for Migration {
                             .primary_key(),
                     )
                     .col(ColumnDef::new(Download::Name).string().not_null())
-                    .col(ColumnDef::new(Download::Size).string().not_null())
-                    .col(ColumnDef::new(Download::SizeUnit).string().not_null())
+                    .col(ColumnDef::new(Download::RawSize).string().not_null())
+                    .col(ColumnDef::new(Download::AdjustedSize).string().not_null())
+                    .col(ColumnDef::new(Download::Unit).string().not_null())
+                    .col(ColumnDef::new(Download::URL).string().not_null())
                     .col(ColumnDef::new(Download::Host).string().not_null())
                     .to_owned(),
             )
@@ -42,7 +44,9 @@ enum Download {
     Table,
     Id,
     Name,
-    Size,
-    SizeUnit,
+    RawSize,
+    AdjustedSize,
+    Unit,
+    URL,
     Host,
 }
