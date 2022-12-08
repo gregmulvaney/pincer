@@ -2,12 +2,23 @@
 
 
 
+type Model {
+	id: Int!
+	name: String!
+	rawSize: String!
+	adjustedSize: String!
+	unit: String!
+	url: String!
+	host: String!
+}
+
 type MutationRoot {
 	addDownload(url: String!): Boolean!
 }
 
 type QueryRoot {
 	greet(name: String!): String!
+	downloads: [Model!]!
 }
 
 

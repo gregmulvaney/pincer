@@ -1,18 +1,9 @@
+use crate::graphql::DownloadItem;
 use async_graphql::{Context, Object, Result as GQLResult};
 use byte_unit::Byte;
 use entity::download::*;
 use sea_orm::{ActiveModelTrait, DatabaseConnection, NotSet, Set};
 use url::Url;
-
-#[derive(Debug, Default)]
-struct DownloadItem {
-    name: String,
-    url: String,
-    raw_size: String,
-    adjusted_size: String,
-    unit: String,
-    host: String,
-}
 
 #[derive(Default)]
 pub struct MutationRoot;
