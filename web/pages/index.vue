@@ -1,7 +1,6 @@
 <template>
-  <div class="flex-grow">
-    <ControlBar />
-    <DownloadList />
+  <div class="flex-grow flex flex-col">
+    <DownloadControlBar />
+    <DownloadTable />
   </div>
 </template>
-

@@ -19,6 +19,9 @@ type MutationRoot {
 type QueryRoot {
 	greet(name: String!): String!
 	downloads: [Model!]!
+	startDownloads: String!
+	pauseDownloads: String!
+	stopDownloads: String!
 }
 
 

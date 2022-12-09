@@ -5,20 +5,24 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "gqlgen": "generate"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^0.33.1",
+    "@graphql-codegen/cli": "^2.16.1",
+    "@graphql-codegen/client-preset": "^1.2.3",
+    "@graphql-codegen/introspection": "^2.2.3",
     "@graphql-eslint/eslint-plugin": "^3.13.1",
     "@iconify-json/carbon": "^1.1.11",
     "@nuxtjs/apollo": "5.0.0-alpha.4",
     "@unocss/nuxt": "^0.47.5",
-    "@unocss/preset-uno": "^0.47.5",
     "@unocss/reset": "^0.47.5",
     "@unocss/transformer-variant-group": "^0.47.5",
-    "@vueuse/nuxt": "^9.6.0",
     "eslint": "^8.29.0",
+    "eslint-plugin-graphql": "^4.0.0",
+    "graphql": "^16.6.0",
     "nuxt": "3.0.0",
-    "typescript": "^4.9.3"
+    "typescript": "^4.9.4"
   }
 }
