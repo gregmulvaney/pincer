@@ -8,6 +8,8 @@ interface Control {
   tooltip?: string
 }
 
+const showModal = ref(false)
+
 const start_downloads_query = gql`query {startDownloads}`
 const pause_downloads_query = gql`query {pauseDownloads}`
 const stop_downloads_query = gql`query {stopDownloads}`
@@ -65,7 +67,7 @@ const download_controls: Control[] = [
     </div>
     <!-- App control buttons -->
     <div class="flex items-center space-x-4">
-      <a href="">
+      <a href="" @click.prevent="showModal = true">
         <span class="i-carbon-add h-6 w-6 flex" />
       </a>
       <a href="">
@@ -74,5 +76,6 @@ const download_controls: Control[] = [
         />
       </a>
     </div>
+    <DownloadAddModal v-show="showModal" @close="showModal = false" />
   </div>
 </template>

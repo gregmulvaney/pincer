@@ -1,6 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  modules: ['@unocss/nuxt', '@nuxtjs/apollo'],
+  modules: ['@unocss/nuxt', '@nuxtjs/apollo', '@vueuse/nuxt'],
   css: ['@unocss/reset/tailwind.css'],
   apollo: {
     clients: {
