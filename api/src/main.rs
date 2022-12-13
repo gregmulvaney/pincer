@@ -2,10 +2,10 @@ use crate::graphql::{
     mutation::MutationRoot, query::QueryRoot, subscription::SubscriptionRoot, GraphQLSchema,
 };
 use async_graphql::{
-    http::{playground_source, GraphQLPlaygroundConfig},
+    http::{playground_source, GraphQLPlaygroundConfig, GraphiQLSource},
     Schema,
 };
-use async_graphql_axum::{GraphQLRequest, GraphQLResponse};
+use async_graphql_axum::{GraphQLRequest, GraphQLResponse, GraphQLSubscription};
 use axum::{
     extract::State,
     response::{Html, IntoResponse},
@@ -15,6 +15,7 @@ use axum::{
 use migration::{Migrator, MigratorTrait};
 use sea_orm::Database;
 use std::io::Write;
+use tokio::sync::mpsc;
 use tower_http::cors::CorsLayer;
 
 mod graphql;
@@ -23,28 +24,42 @@ mod graphql;
 async fn main() {
     tracing_subscriber::fmt::init();
     dotenvy::dotenv().ok();
+
     let addr = std::net::SocketAddr::from(([0, 0, 0, 0], 4000));
+
     let db = Database::connect(std::env::var("DATABASE_URL").unwrap())
         .await
         .unwrap();
+
     Migrator::up(&db, None).await.unwrap();
+
     let schema = Schema::build(QueryRoot, MutationRoot, SubscriptionRoot)
         .data(db)
         .finish();
     dump_sdl(&schema);
+
     let app = Router::new()
         .route("/", get(graphiql).post(graphql_handler))
+        .route_service("/ws", GraphQLSubscription::new(schema.clone()))
         .layer(CorsLayer::permissive())
         .with_state(schema);
+
     println!("Listening on {}", &addr);
+
     let server = Server::bind(&addr).serve(app.into_make_service());
+
     if let Err(e) = server.await {
         eprintln!("Error starting server: {e}")
     }
 }
 
 async fn graphiql() -> impl IntoResponse {
-    Html(playground_source(GraphQLPlaygroundConfig::new("/")))
+    Html(
+        GraphiQLSource::build()
+            .endpoint("http://localhost:4000")
+            .subscription_endpoint("ws://localhost:4000/ws")
+            .finish(),
+    )
 }
 
 async fn graphql_handler(schema: State<GraphQLSchema>, req: GraphQLRequest) -> GraphQLResponse {

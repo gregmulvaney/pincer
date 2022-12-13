@@ -2,8 +2,7 @@
 
 <template>
   <div>
-    Layout: default
-    <slot />
+    Component: download/DownloadTable
   </div>
 </template>
 

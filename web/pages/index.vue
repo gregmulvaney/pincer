@@ -1,6 +1,9 @@
+<script lang="ts" setup></script>
+
 <template>
-  <div class="flex-grow flex flex-col">
-    <DownloadControlBar />
-    <DownloadTable />
+  <div>
+    Page: foo
   </div>
 </template>
+
+<style scoped></style>

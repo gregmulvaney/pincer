@@ -1,5 +1,9 @@
+<script lang="ts" setup></script>
+
 <template>
-  <div class="h-screen w-50 border-r border-zinc-800">
-    sidebar
+  <div>
+    Component: Sidebar
   </div>
 </template>
+
+<style scoped></style>
