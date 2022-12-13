@@ -36,6 +36,8 @@ async fn main() {
     let schema = Schema::build(QueryRoot, MutationRoot, SubscriptionRoot)
         .data(db)
         .finish();
+
+    // Dump SDL to a file for IDE compatibility
     dump_sdl(&schema);
 
     let app = Router::new()
