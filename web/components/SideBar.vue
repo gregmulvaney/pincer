@@ -1,7 +1,10 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+
+</script>
 
 <template>
-  <div>
+  <!-- TODO: Fix width breakpoints -->
+  <div class="h-screen border-r border-zinc-800 min-w-56">
     Component: Sidebar
   </div>
 </template>

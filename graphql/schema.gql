@@ -26,7 +26,7 @@ type QueryRoot {
 
 
 type SubscriptionRoot {
-	getDownloads: Boolean!
+	integers(step: Int! = 1): Int!
 }
 
 schema {

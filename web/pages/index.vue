@@ -1,8 +1,11 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+
+</script>
 
 <template>
-  <div>
-    Page: foo
+  <div class="flex-grow flex flex-col">
+    <DownloadControls />
+    <DownloadTable />
   </div>
 </template>
 

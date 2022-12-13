@@ -1,10 +1,11 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+
+</script>
 
 <template>
-  <div>
-    Layout: default
+  <div class="h-screen bg-zinc-900 text-zinc-300 flex">
+    <SideBar />
     <slot />
   </div>
 </template>
 
-<style scoped></style>
