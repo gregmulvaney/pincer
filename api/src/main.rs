@@ -1,10 +1,7 @@
-use crate::graphql::{
-    mutation::MutationRoot, query::QueryRoot, subscription::SubscriptionRoot, GraphQLSchema,
-};
-use async_graphql::{
-    http::{playground_source, GraphQLPlaygroundConfig, GraphiQLSource},
-    Schema,
-};
+mod graphql;
+
+use crate::graphql::{query::QueryRoot, GraphQLSchema};
+use async_graphql::{http::GraphiQLSource, EmptyMutation, EmptySubscription, Schema};
 use async_graphql_axum::{GraphQLRequest, GraphQLResponse, GraphQLSubscription};
 use axum::{
     extract::State,
@@ -15,16 +12,36 @@ use axum::{
 use migration::{Migrator, MigratorTrait};
 use sea_orm::Database;
 use std::io::Write;
-use tokio::sync::mpsc;
-use tower_http::cors::CorsLayer;
 
-mod graphql;
+// GraphIQL playground
+#[axum::debug_handler]
+async fn graphiql() -> impl IntoResponse {
+    Html(
+        GraphiQLSource::build()
+            .endpoint("http://localhost:4000/graphql")
+            .subscription_endpoint("ws://localhost:4000/ws")
+            .finish(),
+    )
+}
+
+// GraphQL Handler
+#[axum::debug_handler]
+async fn graphql_handler(schema: State<GraphQLSchema>, req: GraphQLRequest) -> GraphQLResponse {
+    schema.execute(req.0).await.into()
+}
+
+fn dump_schema(schema: &GraphQLSchema) {
+    let sdl = schema.sdl();
+    let mut file = std::fs::File::create("../graphql/schema.gql").unwrap();
+    file.write_all(sdl.as_bytes()).unwrap()
+}
 
 #[tokio::main]
 async fn main() {
     tracing_subscriber::fmt::init();
     dotenvy::dotenv().ok();
 
+    // TODO: Change to environment variable
     let addr = std::net::SocketAddr::from(([0, 0, 0, 0], 4000));
 
     let db = Database::connect(std::env::var("DATABASE_URL").unwrap())
@@ -33,17 +50,15 @@ async fn main() {
 
     Migrator::up(&db, None).await.unwrap();
 
-    let schema = Schema::build(QueryRoot, MutationRoot, SubscriptionRoot)
+    let schema: GraphQLSchema = Schema::build(QueryRoot, EmptyMutation, EmptySubscription)
         .data(db)
         .finish();
 
-    // Dump SDL to a file for IDE compatibility
-    dump_sdl(&schema);
+    dump_schema(&schema);
 
     let app = Router::new()
-        .route("/", get(graphiql).post(graphql_handler))
+        .route("/graphql", get(graphiql).post(graphql_handler))
         .route_service("/ws", GraphQLSubscription::new(schema.clone()))
-        .layer(CorsLayer::permissive())
         .with_state(schema);
 
     println!("Listening on {}", &addr);
@@ -51,25 +66,6 @@ async fn main() {
     let server = Server::bind(&addr).serve(app.into_make_service());
 
     if let Err(e) = server.await {
-        eprintln!("Error starting server: {e}")
+        eprintln!("Server error: {e}")
     }
-}
-
-async fn graphiql() -> impl IntoResponse {
-    Html(
-        GraphiQLSource::build()
-            .endpoint("http://localhost:4000")
-            .subscription_endpoint("ws://localhost:4000/ws")
-            .finish(),
-    )
-}
-
-async fn graphql_handler(schema: State<GraphQLSchema>, req: GraphQLRequest) -> GraphQLResponse {
-    schema.execute(req.0).await.into()
-}
-
-fn dump_sdl(schema: &GraphQLSchema) {
-    let sdl = schema.sdl();
-    let mut file = std::fs::File::create("../graphql/schema.gql").unwrap();
-    file.write_all(sdl.as_bytes()).unwrap();
 }

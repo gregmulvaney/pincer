@@ -5,23 +5,20 @@ edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 [workspace]
-members=[".","migration","entity"]
+members = [".","migration","entity"]
 
 [dependencies]
-entity = {path="entity"}
-migration = {path="migration"}
 async-graphql = "5.0.2"
-axum = { version = "0.6.1" }
-tokio = { version = "1.22.0", features=["macros","rt-multi-thread"]}
-dotenvy = "0.15.6"
-tracing-subscriber = "0.3.16"
-tower-http = { version = "0.3.5", features=["cors"] }
 async-graphql-axum = "5.0.2"
-reqwest = "0.11.13"
-tokio-stream = "0.1.11"
+axum = { version = "0.6.1", features=["macros"]}
 byte-unit = "4.0.17"
+dotenvy = "0.15.6"
+entity = { version = "0.1.0", path = "entity" }
+migration = { version = "0.1.0", path = "migration" }
+reqwest = "0.11.13"
+sea-orm = { version = "0.10.5", features=["sqlx-postgres", "runtime-tokio-rustls"] }
+tokio = { version = "1.23.0", features=["macros","rt-multi-thread"]}
+tokio-stream = "0.1.11"
+tower-http = { version = "0.3.5", features=["cors"]}
+tracing-subscriber = "0.3.16"
 url = "2.3.1"
-
-[dependencies.sea-orm]
-version = "0.10.5"
-features=["sqlx-postgres", "runtime-tokio-rustls"]

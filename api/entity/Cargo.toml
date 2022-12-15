@@ -6,6 +6,6 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-sea-orm = "0.10.5"
-serde = { version = "1.0.149", features=["derive"] }
-async-graphql = "5.0.2"
+sea-orm = { version = "0.10.5"}
+async-graphql = "5.0.3"
+serde = { version = "1.0.150", features=["derive"] }

@@ -4,17 +4,27 @@ use async_graphql::SimpleObject;
 use sea_orm::entity::prelude::*;
 use serde::{Deserialize, Serialize};
 
-#[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq, Serialize, Deserialize, SimpleObject)]
+#[derive(Clone, Debug, PartialEq, DeriveEntityModel, Serialize, Deserialize, SimpleObject)]
 #[sea_orm(table_name = "download")]
 pub struct Model {
     #[sea_orm(primary_key)]
     pub id: i32,
-    pub name: String,
-    pub raw_size: String,
-    pub adjusted_size: String,
-    pub unit: String,
-    pub url: String,
+    #[sea_orm(column_type = "Text")]
+    pub file_name: String,
+    #[sea_orm(column_type = "Text")]
     pub host: String,
+    #[sea_orm(column_type = "Text")]
+    pub url: String,
+    #[sea_orm(column_type = "Text")]
+    pub status: String,
+    pub raw_size: f32,
+    pub adjusted_size: f32,
+    #[sea_orm(column_type = "Text")]
+    pub byte_unit: String,
+    #[sea_orm(column_type = "Text")]
+    pub progress: String,
+    #[sea_orm(column_type = "Text")]
+    pub temp_file: String,
 }
 
 #[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]

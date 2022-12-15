@@ -4,33 +4,23 @@
 
 type Model {
 	id: Int!
-	name: String!
-	rawSize: String!
-	adjustedSize: String!
-	unit: String!
-	url: String!
+	fileName: String!
 	host: String!
-}
-
-type MutationRoot {
-	addDownload(url: String!): Boolean!
+	url: String!
+	status: String!
+	rawSize: Float!
+	adjustedSize: Float!
+	byteUnit: String!
+	progress: String!
+	tempFile: String!
 }
 
 type QueryRoot {
-	greet(name: String!): String!
-	downloads: [Model!]!
-	startDownloads: String!
-	pauseDownloads: String!
-	stopDownloads: String!
+	livenessProbe: Boolean!
+	getDownloads: [Model!]!
 }
 
-
-type SubscriptionRoot {
-	integers(step: Int! = 1): Int!
-}
 
 schema {
 	query: QueryRoot
-	mutation: MutationRoot
-	subscription: SubscriptionRoot
 }
