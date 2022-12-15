@@ -10,7 +10,7 @@ export default defineNuxtConfig({
   apollo: {
     clients: {
       default: {
-        httpEndpoint: 'http://127.0.0.1:4000/',
+        httpEndpoint: 'http://127.0.0.1:4000/graphql',
         wsEndpoint: 'ws://127.0.0.1:4000/ws',
       },
     },
